@@ -35,5 +35,5 @@ bin-release/
 **/*.aux
 **/*.synctex.gz
 **/*.toc
-
+**/*.atfi
 # git config
