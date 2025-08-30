@@ -1,0 +1,107 @@
+\documentclass[UTF8]{ctexart}
+\CTEXsetup[format={\Large\bfseries}]{section}%默认一级标题居左
+\usepackage{geometry}
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm} %页边距
+\usepackage{graphicx}%图形
+\usepackage{fancyhdr}%页眉页脚
+\pagestyle{fancy}	%启用fancy风格设置
+\lhead{}
+\chead{}
+\rhead{\bfseries\textsl{\today}  } % textsl 斜体
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+%\renewcommand{\headrulewidth}{0.6pt}    %单线页眉的设置 
+\renewcommand{\footrulewidth}{0.4pt}     %单线页脚的设置 
+%-----------双线页眉的设置  
+\makeatletter % 进入“内部命令模式”（允许使用 @ 符号的 LaTeX 内部变量）
+\def\headrule{{\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi%
+		\hrule\@height 1.0pt \@width\headwidth\vskip1pt%上面线为1pt粗  
+		\hrule\@height 0.5pt\@width\headwidth  %下面0.5pt粗            
+		\vskip-2\headrulewidth\vskip-4pt}      %两条线的距离1pt        
+		  \vspace{3mm}}     %双线与下面正文之间的垂直间距 
+\makeatother    % 退出“内部命令模式”
+%------------双线页眉的设置            
+% \usepackage{booktabs}
+% \usepackage{subfigure}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{array}%需要该宏包
+\usepackage{diagbox} % 加载宏包
+\usepackage{multirow}
+\usepackage{textcomp}
+\usepackage{indentfirst}%首行缩进宏包
+\usepackage{setspace}
+\usepackage{amssymb}
+\title{{\heiti  第一周实验：Git、LaTeX }\vspace{-2em}}
+\date{}
+\begin{document}
+\thispagestyle{empty}  %用于设置 “当前页” 的页眉页脚风格：
+\begin{figure}[tph!] %封面标题
+	\centering
+	\includegraphics[width=0.7\linewidth]{figure/2}
+	
+\end{figure}
+
+\begin{center}% % 内容居中环境（所有内部内容均居中对齐）
+	\quad \\ %插入一个小空格
+	\quad \\
+	\quad \\
+	\quad \\
+	% \quad \\
+	% \quad \\
+	\heiti \fontsize{30}{17} \quad \quad 第\quad 一\quad 周\quad \quad \quad 
+	\vskip 0.5cm
+	\songti \zihao{2} 实\quad 验\quad 报\quad 告%在此打印论文题目，二号黑体	
+\end{center}
+\vskip 1cm
+
+\begin{quotation}
+	\songti \fontsize{20}{20}
+	\doublespacing
+	\par\setlength\parindent{12em}
+	\qquad
+\begin{center}
+		{\Large 学\hspace{0.88cm} 院：\underline{\hbox to 58mm{信息科学与工程学部\hfill}}}
+		\vskip 0.3cm	
+		{\Large 班\hspace{0.88cm} 号：\underline{\hbox to 58mm{计科一班\hfill}}}
+		\vskip 0.3cm
+		{\Large 姓\hspace{0.88cm} 名：\underline{\hbox to 58mm{顾晓宁\hfill}}}
+		\vskip 0.3cm	
+		{\Large 学\hspace{0.88cm} 号：\underline{\hbox to 58mm{24020007036\hfill}}}
+		\vskip 0.3cm	
+		{\Large 实验编号：\underline{\hbox to 58mm{第一周实验报告\hfill}}}
+		\vskip 0.3cm	
+		{\Large 指导教师：\underline{\hbox to 58mm{周小伟\hfill}}}
+	\end{center}
+	% \vskip 3cm
+	% \begin{flushright}% 日期右对齐
+	% 	% 2019\;年\;5\;月\;14\;日
+	% 	\today
+	% \end{flushright}
+	
+\end{quotation}
+\newpage
+%\thispagestyle{empty}
+\tableofcontents % 自动生成目录（基于后续的 \section、\subsection 等章节命令）
+\newpage
+\maketitle	
+\thispagestyle{fancy}	
+\section{实验目的}
+\textbf{练习使用Git进行版本控制，掌握LaTeX的基本使用方法}
+\section{练习内容与结果}
+% \begin{enumerate}
+% 	\item 
+% 	\item 
+% 	\item 
+% 	\item 
+% 	\item 
+% \end{enumerate}
+\section{实验感悟}
+% \begin{thebibliography}{9}%宽度9
+% 	\addcontentsline{toc}{section}{参考文献}%将“参考文献加入目录中”
+% 	\bibitem{bib:one} 蒋立平，姜萍，谭雪琴，花汉兵，数字逻辑电路与系统设计（第三版）北京：电子工业出版社，2019。 
+% \end{thebibliography}
+\section{个人github/gitee账号}
+\section{友情链接}
+\end{document}
