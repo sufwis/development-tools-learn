@@ -33,6 +33,27 @@
 \usepackage{indentfirst}%首行缩进宏包
 \usepackage{setspace}
 \usepackage{amssymb}
+\usepackage{listings}
+\usepackage{xcolor}    % 可选：代码着色（示例用）
+\lstset{
+    frame = single,                % 添加边框（single 表示单线边框）
+    numbers = left,                % 在左侧显示行号
+    numberstyle = \tiny\color{gray}, % 行号样式
+    basicstyle = \ttfamily,        % 设置等宽字体
+    keywordstyle = \color{blue},    % 关键字颜色
+    commentstyle = \color{green},   % 注释颜色
+    stringstyle = \color{red},      % 字符串颜色
+    breaklines = true,             % 自动换行
+    showstringspaces = false,      % 不显示字符串中的空格
+    tabsize = 4                    % 设置缩进空格数
+}
+\usepackage[colorlinks=true,pdfborder={0 0 0},
+    linkcolor=red,     % 内部链接（如目录→章节）的文字颜色
+    citecolor=green,    % 引用（如\cite）的文字颜色
+    urlcolor=blue,      % 网址的文字颜色
+]{hyperref} %超链接
+\usepackage{float}  % 提供 [H] 选项
+
 \title{{\heiti  第一周实验：Git、LaTeX }\vspace{-2em}}
 \date{}
 \begin{document}

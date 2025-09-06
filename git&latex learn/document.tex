@@ -178,7 +178,7 @@ part$>$chapter$>$section$>$subsection$>$subsubsection\\
 该命令逐字打印，用于显示LaTeX代码、特殊字符等，而不被LaTeX解释。\\
 \verb'|'是分隔符，可以用任何字符，如'（但不能是要显示的文本中包含的字符）\\
 分隔符内的所有内容都会原样输出。\\
-
+也可以使用\verb|\texttt{}|，同样可以打印特殊字符。\\
 
 \subsubsection{如何换行、换段、换页、首行缩进？}
 \begin{lstlisting}[language=Tex]
@@ -187,6 +187,7 @@ part$>$chapter$>$section$>$subsection$>$subsubsection\\
 \par % to new paragraph
 \newpage % to new page
 \setlength{\parindent}{length} %first line indentation
+\noindent % to set no indentation in a line
 \end{lstlisting}
 展示：
 % 设置首行缩进
