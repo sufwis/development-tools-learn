@@ -18,7 +18,12 @@
 -> [常用指令](./git&latex%20learn/gitlearn/Git.txt)
 
 
-3. bash
+3. bash/vim  
+-> [详见](./shell/document_2.pdf)
+
+
+4. python-basic,Pillow,ssh  
+-> [详见](./py&cmd-line-env/document_3.pdf)  
 
 
 

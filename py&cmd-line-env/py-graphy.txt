@@ -1,0 +1,131 @@
+常用库简单介绍
+
+1. Pillow库
+Pillow是Python中常用的图像处理库之一。它提供了许多操作图像的函数，如调整大小、滤波操作等。这是Python中最好用的图像处理库之一。唯一的缺点是它已经很久没有更新了。
+
+2. Numpy库
+NumPy代表Numerical Python。它是一个Python库，可以帮助我们处理所有类型的科学计算。NumPy是在执行任何类型的数据预处理或数据科学相关任务时导入的第一个库。此外，它还可以用来进行图像处理操作。
+使用NumPy，我们可以轻松地操纵图像的RGB值
+
+3. Scipy库
+Scipy是Python中主要用于数学和科学计算的库，但同时它也可以用于处理多维图像。这是一个非常大的库，包含许多科学计算的工具。当使用Scipy库进行图像处理时，只需导入scipy.ndimage模块即可。
+
+4. Opencv库
+OpenCV是最常用的一种图像处理库，可以方便地与网络摄像头、图像和视频进行交互。它可以执行多种实时任务，于2000年首次发布。它因其简单性和代码可读性而出名。目前，它主要用于计算机视觉任务，如人脸检测和识别、目标检测等。
+
+5. Pgmagick库
+Pgmagick是Python库中GraphicsMagick的补充，它提供了许多图像处理的功能，比如调整大小、旋转、锐化、渐变等操作。
+
+
+-1.-Pillow库
+它是 PIL（Python Imaging Library）的一个友好分支。它提供了广泛的文件格式支持、高效的内部表示以及强大的图像处理功能。
+一.下载
+二.核心概念：Image 对象
+1. 打开和创建图像
+打开现有图像：
+使用 Image.open() 函数。
+from PIL import Image
+
+# 打开一个图像文件
+img = Image.open('path/to/your/image.jpg')  # 支持 JPG, PNG, BMP, GIF 等多种格式
+
+创建新图像：
+使用 Image.new() 函数。当你需要从头开始绘制或合成图像时非常有用。
+# 创建一个新的 400x300 的红色 RGB 图像
+new_img = Image.new('RGB', (400, 300), color='red')
+# 或者使用十六进制颜色码
+new_img = Image.new('RGB', (400, 300), color='#FF0000')
+# 创建一个透明的 RGBA 图像
+transparent_img = Image.new('RGBA', (200, 200), (255, 0, 0, 128)) # 半透明红色
+
+
+2. 图像的基本属性
+打开图像后，可以查看其基本属性。
+print(img.format)      # 图像格式 (e.g., JPEG, PNG)
+print(img.size)        # 图像尺寸 (宽度, 高度)
+print(img.width)       # 图像宽度
+print(img.height)      # 图像高度
+print(img.mode)        # 颜色模式 (e.g., RGB, RGBA, L (灰度), CMYK)
+
+3. 显示图像
+img.show()  # 会使用系统默认的图片查看器打开图像
+注意：这在服务器或无图形界面的环境中可能无法工作。
+
+4. 保存图像
+使用 save() 方法，可以指定格式和质量等参数。
+img.save('new_image.png')           # 根据扩展名自动判断格式
+img.save('output.jpg', 'JPEG')      # 明确指定格式
+img.save('high_quality.jpg', quality=95)  # 保存为高质量JPEG (1-100, 默认75)
+img.save('small_size.png', optimize=True) # 优化PNG文件大小
+
+
+三、常用图像操作
+1. 转换图像模式
+gray_img = img.convert('L')    # 转换为灰度图像
+rgba_img = img.convert('RGBA') # 转换为带透明通道的图像
+
+2. 调整图像大小
+resize() 方法：
+# 缩放到指定尺寸
+resized_img = img.resize((400, 300))
+
+# 高质量缩放推荐使用 Lanczos 滤波器
+resized_img = img.resize((400, 300), Image.LANCZOS)
+
+thumbnail() 方法：
+这个方法会原地修改图像，生成一个保持原图宽高比的缩略图。尺寸参数是一个元组，表示最大宽度和高度。
+img.thumbnail((150, 150)) # 图像的宽或高将被限制在150像素以内，比例不变
+# 注意：thumbnail 会改变 img 本身，如果你需要保留原图，先复制一份
+
+3. 裁剪图像
+使用 crop() 方法，参数是一个定义左、上、右、下像素坐标的元组 (left, upper, right, lower)。
+left：矩形左边界的 X 坐标。
+upper：矩形上边界的 Y 坐标。
+right：矩形右边界的 X 坐标。
+lower：矩形下边界的 Y 坐标。
+
+4. 旋转和翻转
+# 旋转90度
+rotated_img = img.rotate(90)
+# 旋转45度，并扩展画布以避免图像被裁剪，背景填充为白色
+rotated_img = img.rotate(45, expand=True, fillcolor='white')
+
+翻转：
+# 水平翻转
+flipped_img = img.transpose(Image.FLIP_LEFT_RIGHT)
+# 垂直翻转
+flipped_img = img.transpose(Image.FLIP_TOP_BOTTOM)
+
+
+5. 粘贴图像（合成）
+使用 paste() 方法可以将一张图像粘贴到另一张图像上。
+# 假设我们有 img1 和 img2
+# 将 img2 粘贴到 img1 的 (x, y) 坐标处
+img1.paste(img2, (50, 50))
+
+# 如果 img2 有透明通道（RGBA模式），可以使用它作为蒙版
+img1.paste(img2, (50, 50), mask=img2)
+注意：paste() 会原地修改 img1。
+
+
+四、图像增强
+Pillow 的 ImageEnhance 模块提供了简单的图像增强功能。
+from PIL import ImageEnhance
+
+Pillow 中 ImageEnhance 模块的修改不是原地操作，而是会返回一个新的图像对象，原图像不会被改变。
+
+# 增强对比度
+enhancer = ImageEnhance.Contrast(img)
+enhanced_img = enhancer.enhance(2.0) # 增强2倍
+
+# 增强亮度
+enhancer = ImageEnhance.Brightness(img)
+bright_img = enhancer.enhance(1.5)   # 增强1.5倍
+
+# 增强色彩饱和度
+enhancer = ImageEnhance.Color(img)
+colorful_img = enhancer.enhance(1.5)
+
+# 增强锐度
+enhancer = ImageEnhance.Sharpness(img)
+sharp_img = enhancer.enhance(2.0)
