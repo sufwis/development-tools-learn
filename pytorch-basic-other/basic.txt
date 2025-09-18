@@ -1,0 +1,388 @@
+符号主义-专家系统
+连结主义-感知机-多层感知机/神经网络-卷积神经网络-跳跃...
+
+神经网络，从参数到结果的多层函数，即为拟合函数。
+为求合适参数，求损失函数最小情况，运用梯度下降、以及链式求导、反向传播，计算最初参数的梯度。
+泛化能力。
+
+
+-1.-pytorch基础
+
+PyTorch 主要有以下几个基础概念：张量（Tensor）、自动求导（Autograd）、神经网络模块（nn.Module）、优化器（optim）等。
+
+张量（Tensor）：PyTorch 的核心数据结构，支持多维数组，并可以在 CPU 或 GPU 上进行加速计算。
+自动求导（Autograd）：PyTorch 提供了自动求导功能，可以轻松计算模型的梯度，便于进行反向传播和优化。
+神经网络（nn.Module）：PyTorch 提供了简单且强大的 API 来构建神经网络模型，可以方便地进行前向传播和模型定义。
+优化器（Optimizers）：使用优化器（如 Adam、SGD 等）来更新模型的参数，使得损失最小化。
+设备（Device）：可以将模型和张量移动到 GPU 上以加速计算。
+
+1.PyTorch 架构总览
+模块化设计
+
+PyTorch 采用分层架构设计，从上层到底层依次为：
+1、Python API（顶层）
+torch：核心张量计算（类似NumPy，支持GPU）。
+torch.nn：神经网络层、损失函数等。
+torch.autograd：自动微分（反向传播）。
+开发者直接调用的接口，简单易用。
+
+2、C++核心（中层）
+ATen：张量运算核心库（400+操作）。
+JIT：即时编译优化模型。
+Autograd引擎：自动微分的底层实现。
+高性能计算，连接Python与底层硬件。
+
+3、基础库（底层）
+TH/THNN：C语言实现的基础张量和神经网络操作。
+THC/THCUNN：对应的CUDA（GPU）版本。
+直接操作硬件（CPU/GPU），极致优化速度。
+
+执行流程：
+Python代码 → C++核心计算 → 底层CUDA/C库加速 → 返回结果
+
+
+2.张量 Tensor
+2.1 张量介绍
+张量（Tensor）是 PyTorch 中的核心数据结构，用于存储和操作多维数组。
+可以运行在不同的设备上，比如 CPU 和 GPU
+
+维度（Dimensionality）：张量的维度指的是数据的多维数组结构。例如，一个标量（0维张量）是一个单独的数字，一个向量（1维张量）是一个一维数组，一个矩阵（2维张量）是一个二维数组，以此类推。
+
+形状（Shape）：张量的形状是指每个维度上的大小。例如，一个形状为(3, 4)的张量意味着它有3行4列。
+
+数据类型（Dtype）：张量中的数据类型定义了存储每个元素所需的内存大小和解释方式。PyTorch支持多种数据类型，包括整数型（如torch.int8、torch.int32）、浮点型（如torch.float32、torch.float64）和布尔型（torch.bool）。
+
+2.2 张量创建
+import torch
+
+# 创建一个 2x3 的全 0 张量
+a = torch.zeros(2, 3)
+print(a)
+
+# 创建一个 2x3 的全 1 张量
+b = torch.ones(2, 3)
+print(b)
+
+# 创建一个 2x3 的随机数张量，符合正态分布
+c = torch.randn(2, 3)
+print(c)
+
+# 从 NumPy 数组创建张量
+import numpy as np
+numpy_array = np.array([[1, 2], [3, 4]])
+tensor_from_numpy = torch.from_numpy(numpy_array)
+print(tensor_from_numpy)
+
+# 在指定设备（CPU/GPU）上创建张量
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+d = torch.randn(2, 3, device=device)
+print(d)
+
+
+e = torch.tensor([datas])
+
+2.3 常用张量操作：
+# 张量相加，要求形状相同、逐元素相加
+e = torch.randn(2, 3)
+f = torch.randn(2, 3)
+print(e + f)
+
+# 逐元素乘法，要求形状相同
+print(e * f)
+
+# 张量的转置
+g = torch.randn(3, 2)
+print(g.t())  # 或者 g.transpose(0, 1)
+
+# 张量的形状
+print(g.shape)  # 返回形状
+
+
+3. 张量与设备
+你可以将张量移动到 GPU 上以加速计算
+if torch.cuda.is_available():
+    tensor_gpu = tensor_from_list.to('cuda')  # 将张量移动到GPU
+后续对该张量的操作会默认在 GPU 上进行
+注意tensor_from_list是一个已经定义的CPU张量，.to返回的是新的张量，旧张量依旧存在于CPU上。
+
+
+4.梯度和自动微分
+PyTorch的张量支持自动微分，这是深度学习中的关键特性。当你创建一个需要梯度的张量时，PyTorch可以自动计算其梯度
+
+# 创建一个需要梯度的张量
+tensor_requires_grad = torch.tensor([1.0], requires_grad=True)
+
+# 进行一些操作
+tensor_result = tensor_requires_grad * 2
+
+# 计算梯度
+tensor_result.backward()
+print(tensor_requires_grad.grad)  # 输出梯度
+
+tensor的数据参数需求浮点型
+
+可以指出梯度参数，“梯度参数” 指的是传递给 .backward() 方法的初始梯度值
+当输出是标量（单个数值） 时，PyTorch 会默认使用 torch.tensor(1.0) 作为初始梯度（可以省略不写）。
+当输出是张量（多个数值） 时，必须显式指定与输出张量形状相同的梯度参数，否则会报错。
+这个给出的参数，将作为初始梯度，也为权重。
+
+
+4.内存和性能
+PyTorch 张量还提供了一些内存管理功能，比如.clone()、.detach() 和 .to() 方法，它们可以帮助你优化内存使用和提高性能。
+
+.clone()：复制张量并保留计算图关联
+作用：创建一个张量的深度副本（数据完全独立），且保留原张量的计算图信息（即 requires_grad 属性和梯度传播关系）。
+
+.detach()：分离张量与计算图
+-** 作用 ：创建一个与原张量共享数据 的新张量，但脱离计算图 （即 requires_grad 变为 False，不再参与梯度计算）。
+
+ .to()：迁移张量到指定设备或转换数据类型
+作用：将张量移动到指定设备（如 CPU/GPU）或转换数据类型（如 float32 → float64），返回一个新张量
+
+
+3.自动求导Autograd
+3.1 介绍
+在深度学习中，自动求导主要用于两个方面：一是在训练神经网络时计算梯度，二是进行反向传播算法的实现。
+
+自动求导基于链式法则（Chain Rule），这是一个用于计算复杂函数导数的数学法则。链式法则表明，复合函数的导数是其各个组成部分导数的乘积。在深度学习中，模型通常是由许多层组成的复杂函数，自动求导能够高效地计算这些层的梯度。
+
+3.2 图
+动态图与静态图：
+动态图（Dynamic Graph）：在动态图中，计算图在运行时动态构建。每次执行操作时，计算图都会更新，这使得调试和修改模型变得更加容易。PyTorch使用的是动态图。
+
+静态图（Static Graph）：在静态图中，计算图在开始执行之前构建完成，并且不会改变。TensorFlow最初使用的是静态图，但后来也支持动态图。
+
+PyTorch 提供了自动求导功能，通过 autograd 模块来自动计算梯度。
+torch.Tensor 对象有一个 requires_grad 属性，用于指示是否需要计算该张量的梯度。
+当你创建一个 requires_grad=True 的张量时，PyTorch 会自动跟踪所有对它的操作，以便在之后计算梯度。
+# 创建一个需要计算梯度的张量
+x = torch.randn(2, 2, requires_grad=True)
+print(x)
+
+# 执行某些操作
+y = x + 2
+z = y * y * 3
+out = z.mean() #求平均值
+
+print(out)
+
+
+3.3 反向传播Backpropagation
+一旦定义了计算图，可以通过 .backward() 方法来计算梯度。
+# 反向传播，计算梯度
+out.backward()
+
+# 查看 x 的梯度
+print(x.grad)
+
+在神经网络训练中，自动求导主要用于实现反向传播算法。
+反向传播是一种通过计算损失函数关于网络参数的梯度来训练神经网络的方法。在每次迭代中，网络的前向传播会计算输出和损失，然后反向传播会计算损失关于每个参数的梯度，并使用这些梯度来更新参数。
+
+3.4 停止梯度计算
+如果你不希望某些张量的梯度被计算（例如，当你不需要反向传播时），可以使用 torch.no_grad() 或设置 requires_grad=False。
+
+# 使用 torch.no_grad() 禁用梯度计算
+with torch.no_grad():
+    y = x * 2
+
+
+4.神经网络 nn.Module
+神经网络通过调整神经元之间的连接权重来优化预测结果，这一过程涉及前向传播、损失计算、反向传播和参数更新。
+神经网络的类型包括前馈神经网络、卷积神经网络（CNN）、循环神经网络（RNN）和长短期记忆网络（LSTM），它们在图像识别、语音处理、自然语言处理等多个领域都有广泛应用。
+
+4.1  基本过程
+PyTorch 提供了一个非常方便的接口来构建神经网络模型，即 torch.nn.Module。
+我们可以继承 nn.Module 类并定义自己的网络层。
+
+import torch.nn as nn
+import torch.optim as optim
+
+# 定义一个简单的全连接神经网络
+class SimpleNN(nn.Module):
+    def __init__(self):
+        super(SimpleNN, self).__init__()
+        self.fc1 = nn.Linear(2, 2)  # 输入层到隐藏层
+        self.fc2 = nn.Linear(2, 1)  # 隐藏层到输出层
+    
+    def forward(self, x):
+        x = torch.relu(self.fc1(x))  # ReLU 激活函数
+        x = self.fc2(x)
+        return x
+
+# 创建网络实例
+model = SimpleNN()
+
+# 打印模型结构
+print(model)
+
+
+训练过程：
+前向传播（Forward Propagation）： 在前向传播阶段，输入数据通过网络层传递，每层应用权重和激活函数，直到产生输出。
+计算损失（Calculate Loss）： 根据网络的输出和真实标签，计算损失函数的值。
+反向传播（Backpropagation）： 反向传播利用自动求导技术计算损失函数关于每个参数的梯度。
+参数更新（Parameter Update）： 使用优化器根据梯度更新网络的权重和偏置。
+迭代（Iteration）： 重复上述过程，直到模型在训练数据上的性能达到满意的水平。
+
+4.2 前行传播与损失计算
+# 随机输入
+x = torch.randn(1, 2)
+
+# 前向传播
+output = model(x)
+print(output)
+
+# 定义损失函数（例如均方误差 MSE）
+criterion = nn.MSELoss()
+
+# 假设目标值为 1
+target = torch.randn(1, 1)
+
+# 计算损失
+loss = criterion(output, target)
+print(loss)
+
+4.3 优化器 Optimizers
+优化器在训练过程中更新神经网络的参数，以减少损失函数的值。
+PyTorch 提供了多种优化器，例如 SGD、Adam 等
+使用优化器进行参数更新：
+
+# 定义优化器（使用 Adam 优化器）
+optimizer = optim.Adam(model.parameters(), lr=0.001)
+
+# 训练步骤
+optimizer.zero_grad()  # 清空梯度
+loss.backward()  # 反向传播
+optimizer.step()  # 更新参数
+
+
+5.训练模型
+旨在通过大量数据学习模型参数，以便模型能够对新的、未见过的数据做出准确的预测。
+
+训练模型通常包括以下几个步骤：
+
+数据准备：
+
+收集和处理数据，包括清洗、标准化和归一化。
+将数据分为训练集、验证集和测试集。
+定义模型：
+
+选择模型架构，例如决策树、神经网络等。
+初始化模型参数（权重和偏置）。
+选择损失函数：
+
+根据任务类型（如分类、回归）选择合适的损失函数。
+选择优化器：
+
+选择一个优化算法，如SGD、Adam等，来更新模型参数。
+前向传播：
+
+在每次迭代中，将输入数据通过模型传递，计算预测输出。
+计算损失：
+
+使用损失函数评估预测输出与真实标签之间的差异。
+反向传播：
+
+利用自动求导计算损失相对于模型参数的梯度。
+参数更新：
+
+根据计算出的梯度和优化器的策略更新模型参数。
+迭代优化：
+
+重复步骤5-8，直到模型在验证集上的性能不再提升或达到预定的迭代次数。
+评估和测试：
+
+使用测试集评估模型的最终性能，确保模型没有过拟合。
+模型调优：
+
+根据模型在测试集上的表现进行调参，如改变学习率、增加正则化等。
+部署模型：
+
+将训练好的模型部署到生产环境中，用于实际的预测任务。
+
+
+6.设备（Device）
+PyTorch 允许你将模型和数据移动到 GPU 上进行加速。
+
+使用 torch.device 来指定计算设备。
+
+将模型和数据移至 GPU:
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+# 将模型移动到设备
+model.to(device)
+
+# 将数据移动到设备
+X = X.to(device)
+Y = Y.to(device)
+
+
+7.nn常用、解释
+nn.Module 是所有神经网络模块的基类。你的模型或网络中的层都应继承这个类。它负责管理其内部的参数（Parameters）和子模块（Modules）
+
+1.关键方法
+forward(self, x): 必须重写。定义前向传播的逻辑。
+
+parameters(): 返回一个包含所有可训练参数的迭代器。
+
+named_parameters(): 返回一个包含所有可训练参数名称和参数本身的迭代器，调试时很有用。
+
+to(device): 将模型的所有参数和缓冲区移动到指定的设备（如CPU或GPU）。
+
+train() / eval(): 将模块设置为训练或评估模式。这会影响某些层的行为，如 Dropout 和 BatchNorm。
+
+state_dict() / load_state_dict(): 获取或加载模型的状态字典（包含所有参数和持久缓冲区），用于模型的保存和加载。
+
+2. 常用网络层
+2.1.线性层
+torch.nn.Linear 是 PyTorch 中用于实现线性变换（也称为全连接层）的类，其数学原理对应公式：
+y = x · W^T + b
+其中：
+x 是输入张量
+W 是权重矩阵（可学习参数）
+b 是偏置向量（可学习参数）
+· 表示矩阵乘法
+W^T 表示权重矩阵的转置
+
+nn.Linear(in_features, out_features, bias=True, device=None, dtype=None)
+in_features（必选）
+输入特征的维度（即输入张量最后一个维度的大小）。
+例如，若输入是形状为 (batch_size, 100) 的张量，则 in_features=100。
+out_features（必选）
+输出特征的维度（即输出张量最后一个维度的大小）。
+例如，out_features=10 表示输出张量形状为 (batch_size, 10)。
+bias（可选，默认 True）
+是否添加偏置项 b。
+若设为 False，则仅计算 y = x · W^T，不添加偏置。
+device（可选）
+指定层参数（W 和 b）所在的设备（如 cpu 或 cuda）。
+dtype（可选）
+指定层参数的数据类型（如 torch.float32）。
+
+2.2.丢弃层
+nn.Dropout 是 PyTorch 中用于实现 Dropout 正则化 的层，主要作用是在训练过程中随机将一部分神经元的输出置为 0，以防止模型过拟合。其核心思想是通过随机 “丢弃” 部分神经元，迫使模型学习更加鲁棒的特征（不依赖于特定神经元的激活）
+
+参数：
+nn.Dropout(p=0.5, inplace=False)
+p（可选，默认 0.5）
+每个神经元被 “丢弃”（输出置为 0）的概率，取值范围为 [0, 1)。
+例如，p=0.5 表示训练时随机选择 50% 的神经元将其输出设为 0；p=0.2 则表示丢弃 20% 的神经元。
+注意：测试（推理）时，Dropout 层不会丢弃任何神经元，而是会自动对输出进行缩放（乘以 1/(1-p)），以保证输出的期望不变。
+inplace（可选，默认 False）
+是否在原张量上进行操作（即直接修改输入张量，不创建新张量）。
+设为 True 可以节省内存，但可能会覆盖原始数据，一般保持默认 False 即可。
+
+2.3. 归一化层
+nn.BatchNorm1d
+对一维数据进行批标准化（Batch Normalization）的层，主要作用是通过标准化输入数据，加速神经网络的训练过程，提高模型稳定性和泛化能力。
+
+
+
+3.参数管理
+nn.Parameter 是 Tensor 的子类，当它被赋值给一个 nn.Module 的属性时，会自动注册为该模块的可训练参数，并可以通过 parameters() 方法访问。通常用于自定义层中定义需要学习的权重和偏置
+
+4.功能函数
+torch.nn.functional 包含了许多与 nn 中层对应的函数式接口。它们通常不包含自身的参数（除了函数输入），因此更轻量，常用于前向传播计算中。
+
+与 nn.Xxx 层的区别：
+nn.Xxx（如 nn.Linear, nn.Conv2d）是模块类，继承自 nn.Module，会自动管理其内部参数（如权重和偏置）。
+F.xxx（如 F.linear, F.conv2d）是函数，需要手动传入所有参数（包括权重和偏置）。
