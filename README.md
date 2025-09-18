@@ -26,7 +26,8 @@
 4. python-basic,Pillow,ssh  
 -> [详见](./py&cmd-line-env/document_3.pdf)  
 
-
+5. pytorch and other  
+-> [详见](./pytorch-basic-other/document_4.pdf)
 
 ## 推荐阅读
 [计算机教育中缺失的一课](https://missing-semester-cn.github.io/)
