@@ -2,9 +2,11 @@
 
   __个人练习用例，部分内容含有注释，欢迎大家参考使用__
   
+  
   应老师要求，发布到个人github账号
-  [个人github账号](https://github.com/sufwis)
+  [个人github账号](https://github.com/sufwis)  
   [实验报告模板](./git&latex%20learn/template.tex)
+
 
 
 
@@ -15,19 +17,19 @@
 
 
 2. git  
--> [详见](./git&latex%20learn/document.pdf)
+-> [详见](./git&latex%20learn/document.pdf)  
 -> [常用指令](./git&latex%20learn/gitlearn/Git.txt)
 
 
-3. bash/vim  
+3. bash    
 -> [详见](./shell/document_2.pdf)
 
-
-4. python-basic,Pillow,ssh  
+4. py and cmd-line-env  
 -> [详见](./py&cmd-line-env/document_3.pdf)  
 
 5. pytorch and other  
--> [详见](./pytorch-basic-other/document_4.pdf)
+-> [详见](./pytorch-basic-other/document_4.pdf)  
+
 
 ## 推荐阅读
 [计算机教育中缺失的一课](https://missing-semester-cn.github.io/)
