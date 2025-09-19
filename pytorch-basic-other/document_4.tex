@@ -190,6 +190,11 @@ Linux可以使用journalctl，macOS可以使用log show。
 	# 查看当前list一次显示的行数
 	(gdb) show listsize
 \end{verbatim}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{figure/gdb_list.png}	
+	\caption{使用list展示10行代码（默认）}
+\end{figure}
 
 \subsubsection{gdb：断点设置}
 \begin{verbatim}
@@ -209,7 +214,11 @@ Linux可以使用journalctl，macOS可以使用log show。
 	# 通常情况下, 在循环中条件断点用的比较多
 	(gdb) b 行数 if 条件
 \end{verbatim}
-
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{figure/gdb_b.png}
+	\caption{在行11设置断点，并查看}	
+\end{figure}
 
 
 \subsubsection{gdb：断点操作}
@@ -233,6 +242,12 @@ Linux可以使用journalctl，macOS可以使用log show。
 	ena/enable 断点编号
 	ena/enable 断点编号1-断点编号2
 \end{verbatim}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{figure/gdb_dis_b.png}
+	\caption{将设置的断点禁用，如图Enb项转为n}	
+\end{figure}
+
 
 \subsubsection{gdb：打印信息}
 \begin{verbatim}
@@ -253,6 +268,12 @@ Linux可以使用journalctl，macOS可以使用log show。
 	/f	以浮点数的形式打印变量或表达式的值。
 	/c	以字符形式打印变量或表达式的值。
 \end{verbatim}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{figure/pn.png}
+	\caption{start进行调试后，打印变量n的值}	
+\end{figure}
+
 
 \subsubsection{gdb：自动打印信息}
 \begin{verbatim}
@@ -271,6 +292,12 @@ Linux可以使用journalctl，macOS可以使用log show。
 		反之，如果处于禁用状态（用 n 表示），则该变量（表达式）的值不会被打印。
 	Expression ：被自动打印值的变量或表达式的名字。
 \end{verbatim}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{figure/displayn.png}
+	\caption{如图自动打印变量（从n未赋值，到赋值为10）}	
+\end{figure}
+
 
 \subsubsection{gdb：自动打印变量的删除、禁用和启用}
 \begin{verbatim}
@@ -421,6 +448,7 @@ make target。
 \subsection{pytorch}
 \begin{verbatim}
 	使用pytorch制作一个简单的ai，配合该目录下CNN_test.py食用更加。
+	代码与模型测试详见该目录下文件，不再赘述。
 \end{verbatim}
 
 \subsubsection{数据集}
@@ -527,6 +555,21 @@ make target。
 
 	torch.save(model.state_dict(),"pytorch-basic-other\\CNN_test_model_statedict.pth")
 \end{verbatim}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{figure/CNN_test_result.png}
+	\caption{使用PIL的Draw绘制0-9灰度黑底白字图，预测结果如图}
+\end{figure}
+\begin{verbatim}
+	补充，模型相关代码以CNN_test开头，PIL绘制图存于test_figure目录下：
+\end{verbatim}
+\qquad
+模型训练代码为\href{file:pytorch-basic-other/CNN_test.py}{点击}。\\
+\indent 参数存储为\href{file:pytorch-basic-other/CNN_test_model_statedict.pth}{点击}。
+\\
+\indent PIL绘制灰度测试图代码为\href{file:pytorch-basic-other/CNN_test_use.py}{点击}。
+\\
+\indent PIL绘制的图存储于$test\_figure$目录下。
 
 
 \section{实验感悟}
