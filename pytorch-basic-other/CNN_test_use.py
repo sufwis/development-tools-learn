@@ -42,7 +42,7 @@ def create_mnist_like_digit(digit, save_path=None):
         draw.line((14, 4, 22, 4), fill=255, width=2)
         draw.line((22, 4, 22, 14), fill=255, width=2)
         draw.line((22, 14, 6, 24), fill=255, width=2)
-        draw.line((6, 24, 6, 14), fill=255, width=2)
+        draw.line((6, 24, 22, 24), fill=255, width=2)
     elif digit == 3:
         # 绘制数字3
         draw.line((6, 4, 22, 4), fill=255, width=2)
@@ -52,7 +52,7 @@ def create_mnist_like_digit(digit, save_path=None):
         draw.line((22, 17, 22, 24), fill=255, width=2)
         draw.line((6, 24, 22, 24), fill=255, width=2)
     elif digit == 4:
-        # 绘制数字4 - 修复这里的参数传递
+        # 绘制数字4 
         draw.line([(6, 4), (6, 12)], fill=255, width=2)  # 使用列表传递坐标
         draw.line([(6, 12), (18, 12)], fill=255, width=2)
         draw.line([(18, 4), (18, 24)], fill=255, width=2)
@@ -81,7 +81,7 @@ def create_mnist_like_digit(digit, save_path=None):
     elif digit == 9:
         # 绘制数字9
         draw.arc((4, 2, 24, 14), 0, 360, fill=255, width=2)
-        draw.line([(14, 14), (14, 4)], fill=255, width=2)
+        # draw.line([(14, 14), (14, 4)], fill=255, width=2)
         draw.line([(14, 14), (22, 14)], fill=255, width=2)
         draw.line([(22, 14), (22, 24)], fill=255, width=2)
         draw.line([(6, 24), (22, 24)], fill=255, width=2)
